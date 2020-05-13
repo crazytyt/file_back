@@ -1,0 +1,13 @@
+export CROSS_COMPILE=/home/tyt/bin/gcc-linaro-6.3.1-2017.05-x86_64_aarch64-linux-gnu/bin/aarch64-linux-gnu-
+export ROOTFS=/tftpboot/tangyt/ls1028a/rootfs
+export ROOTFS_USR=$ROOTFS/usr
+export X11_ARM_DIR=$ROOTFS/usr
+export WAYLAND_DIR=/tftpboot/tangyt/wayland
+export CFLAGS="--sysroot=$ROOTFS -D__arm64"
+export LDFLAGS="--sysroot=$ROOTFS"
+export PFLAGS="--sysroot=$ROOTFS"
+export BUILD_HARD_VFP=1
+export ARCH=arm64
+export SOC_PLATFORM=freescale-imx
+export VIVANTE_SDK_DIR=/mnt/tyt/git/gpu-viv6/driver/build/sdk
+export KERNEL_DIR=/mnt/dash-lts
