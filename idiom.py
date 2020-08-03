@@ -1,8 +1,13 @@
+#!/usr/bin/python3
+# -*- coding: UTF-8 -*-
 
 import sys
 import requests
 from bs4 import BeautifulSoup
 import os
+import re
+
+count = 0
 
 #导入所需要的模块
 class idiom():
@@ -37,14 +42,35 @@ class idiom():
 
     def parseContent(self, html):
         table = BeautifulSoup(html, 'lxml').find('table', id ='table1')
+        url = "http://www.hydcd.com/cy/fkccy/"
+        global count
         for row in table.find_all("tr"):
             td = row.find_all("td")
             #cell = [i for i in td]
-            print(" ==================")
+            #print(" ==================")
             for row in td:
                 img = row.find('img')
-                print(img)
-                print(" ---------------------------")
+                ss = str(img).split(' ')
+                ll = len(ss) - 1
+                m = ss[ll].find('image')
+                image_link = ss[ll][m:-3]
+                r = requests.get(url + image_link)
+
+                s = ss[1].find('\"')
+                idiom_name = ss[1][s+1:-1]
+
+                fname = 'img/' + idiom_name + '.png'
+
+                print(fname)
+                with open(fname, "wb") as code:
+                    code.write(r.content)
+
+               # print(ss[ll][m:-3])
+
+                
+                count += 1
+                print(" ---------------------------", count)
+
 
     '''
     def html(self, href):   ##获得图片的页面地址
@@ -85,6 +111,15 @@ class idiom():
 if __name__ == '__main__':
     Idiom = idiom() ##实例化
     Idiom.all_url('http://www.hydcd.com/cy/fkccy/index.htm') ##给函数all_url传入参数  
+    Idiom.all_url('http://www.hydcd.com/cy/fkccy/index2.htm') ##给函数all_url传入参数  
+    Idiom.all_url('http://www.hydcd.com/cy/fkccy/index3.htm') ##给函数all_url传入参数  
+    Idiom.all_url('http://www.hydcd.com/cy/fkccy/index4.htm') ##给函数all_url传入参数  
+    Idiom.all_url('http://www.hydcd.com/cy/fkccy/index5.htm') ##给函数all_url传入参数  
+    Idiom.all_url('http://www.hydcd.com/cy/fkccy/index6.htm') ##给函数all_url传入参数  
+    Idiom.all_url('http://www.hydcd.com/cy/fkccy/index7.htm') ##给函数all_url传入参数  
+    Idiom.all_url('http://www.hydcd.com/cy/fkccy/index8.htm') ##给函数all_url传入参数  
+    Idiom.all_url('http://www.hydcd.com/cy/fkccy/index9.htm') ##给函数all_url传入参数  
+    Idiom.all_url('http://www.hydcd.com/cy/fkccy/index10.htm') ##给函数all_url传入参数  
 
 
 '''
