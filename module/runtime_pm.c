@@ -6,6 +6,7 @@
 #include <linux/platform_device.h>
 #include <linux/types.h>
 #include <linux/pm_runtime.h>
+#include <linux/delay.h>
  
  
 static int runtime_pm_probe(struct platform_device *pdev)
@@ -13,6 +14,9 @@ static int runtime_pm_probe(struct platform_device *pdev)
 	printk(KERN_EMERG "runtime_pm: runtime_pm_probe!\n");
 	pm_runtime_set_active(&pdev->dev);
 	pm_runtime_enable(&pdev->dev);	
+	pm_runtime_get(&pdev->dev);
+	mdelay(2000);
+	pm_runtime_put(&pdev->dev);
 	return 0;
 }
  
