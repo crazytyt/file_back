@@ -102,8 +102,8 @@ def main_loop():
 if __name__ == '__main__':
     pygame.init()
     pygame.mixer.init()
-    yippee = pygame.mixer.Sound(r"C:\Users\nxa22691\OneDrive - NXP\Documents\python\yippee.wav")
-    nono = pygame.mixer.Sound(r"C:\Users\nxa22691\OneDrive - NXP\Documents\python\no.wav")
+    yippee = pygame.mixer.Sound(r"./yippee.wav")
+    nono = pygame.mixer.Sound(r"./no.wav")
     clock = pygame.time.Clock()
     screen = pygame.display.set_mode((width, hight))
 
