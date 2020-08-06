@@ -6,6 +6,31 @@ import time
 import sys
 import exifread
 
+month_dict = {'Jan':'01',
+              'Feb':'02',
+              'Mar':'03',
+              'Apr':'04',
+              'May':'05',
+              'Jun':'06',
+              'Jul':'07',
+              'Aug':'08',
+              'Sep':'09',
+              'Oct':'10',
+              'Nov':'11',
+              'Dec':'12' }
+monthF_dict = {'01':'Janauary',
+		'02':'February',
+		'03':'March',
+		'04':'April',
+		'05':'May',
+		'06':'June',
+		'07':'July',
+		'08':'August',
+		'09':'September',
+		'10':'October',
+		'11':'November',
+		'12':'December'		}
+
 class TypeError (Exception):
     pass
 
@@ -23,23 +48,52 @@ if __name__ == '__main__':
 
         for f in files:          
         
-            filename = os.path.join(roots, f)
-            #print(filename)
+            fname = os.path.join(roots, f)
+            filename = os.path.abspath(fname)
             
             fo = open(filename,'rb')
             tags = exifread.process_file(fo)
             fo.close()
 
-            # get the taken time like: ASCII=2018:12:07 03:10:34
-            time=tags['Image DateTime']
+            if tags and len(tags) > 0 and 'Image DateTime' in tags:
+                # get the taken time like: ASCII=2018:12:07 03:10:34
+                dt =tags['Image DateTime']
 
-            xtime = str(time).split() # remove time and keep date
-            #print(xtime[0], xtime[1])
+                print(" it is normal\n")
+                xtime = str(dt).split() # remove time and keep date
+                print(xtime[0], xtime[1])
 
-            year = xtime[0].split(':')[0]
-            month = xtime[0].split(':')[1]
-            day = xtime[0].split(':')[2]
-            #print(year, month, day)
+                year = xtime[0].split(':')[0]
+                month = xtime[0].split(':')[1]
+                day = xtime[0].split(':')[2]
+                #print(year, month, day)
+            else:
+                #print(" it is except \n")
+                # Get file modified time information "%Y%m%d_%H%M%S"
+                #mtime = time.localtime(os.stat(filename).st_mtime)
+
+                #获取文件的访问时间、改变时间、修改时间
+                #atime = time.ctime(os.path.getatime(filename))
+                #ctime = time.ctime(os.path.getctime(filename))
+                mtime = time.ctime(os.path.getmtime(filename))
+
+                print(mtime)
+                year = mtime[20:24]
+                month = month_dict[mtime[4:7]]
+                day = mtime[8:10]
+                c_H = mtime[11:13]
+                c_M = mtime[14:16]
+                c_S = mtime[17:19]
+
+                #print( " -------- ", sys._getframe().f_lineno)
+                #print(" --- ", year, month, day)
+
+                '''
+                if mtime[2] < 10:
+                    day = '0' + str(mtime[2])
+                else:
+                    day = str(mtime[2])
+                '''
             
             dat = year + '_' + month + '_' + day
             pathnm = os.path.join(dst_dir, dat)
@@ -78,5 +132,4 @@ if __name__ == '__main__':
                     print("Input Error")
             else:
                 shutil.move(filename, pathnm)
-
 
